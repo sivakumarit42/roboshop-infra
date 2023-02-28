@@ -30,7 +30,6 @@ resource "null_resource" "provisioner" {
     ]
 
   }
-
 }
 
 resource "aws_security_group" "sg" {
