@@ -3,32 +3,26 @@ variable "instances" {
     frontend = {
       name = "frontend"
       type = "t3.micro"
-      password = ""
     }
     mongodb = {
       name = "mongodb"
       type = "t3.micro"
-      password = ""
     }
     catalogue = {
       name = "catalogue"
       type = "t3.micro"
-      password = ""
     }
     redis = {
       name = "redis"
       type = "t3.micro"
-      password = ""
     }
     user = {
       name = "user"
       type = "t3.micro"
-      password = ""
     }
     cart = {
       name = "cart"
       type = "t3.micro"
-      password = ""
     }
     mysql = {
       name     = "mysql"
