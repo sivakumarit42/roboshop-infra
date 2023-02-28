@@ -19,7 +19,7 @@ resource "null_resource" "provisioner" {
 
     connection {
       host     = aws_instance.ec2.public_ip
-      user     = "root"
+      user     = "centos"
       password = "DevOps321"
     }
 
@@ -28,9 +28,9 @@ resource "null_resource" "provisioner" {
       "cd roboshop-shell",
       "sudo bash ${var.component}.sh ${var.password}"
     ]
+
   }
 }
-
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
