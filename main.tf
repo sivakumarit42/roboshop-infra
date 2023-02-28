@@ -1,8 +1,8 @@
 #module declaration
-module "ec2-instances" {
-  source        = "./ec2"         #./ indicates current directory
+module "ec2" {
+  source        = "./ec2"
   for_each      = var.instances
-  instance-type = each.value["type"]
   component     = each.value["name"]
+  instance_type = each.value["type"]
   password      = try(each.value["password"], null)
 }
