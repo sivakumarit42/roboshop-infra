@@ -3,14 +3,14 @@ data "aws_ami" "ami" {
   name_regex  = "Centos-8-DevOps-Practice"
   owners      = ["973714476881"]
 }
-#access image id by using datasourse
+
 
 resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.ami.image_id
-  instance_type          = var.instance-type
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
   tags = {
-    Name =var.component
+    Name = var.component
   }
 }
 
@@ -30,24 +30,26 @@ resource "null_resource" "provisioner" {
     ]
 
   }
+
 }
+
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
 
   ingress {
-    description      = "ALL"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "ALL"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -64,9 +66,8 @@ resource "aws_route53_record" "record" {
 }
 
 variable "component" {}
-variable "instance-type" {}
+variable "instance_type" {}
 variable "env" {
-  default = "env"
+  default = "dev"
 }
 variable "password" {}
-
