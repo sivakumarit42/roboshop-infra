@@ -6,3 +6,4 @@ module "ec2" {
   instance_type = each.value["type"]
   password      = try(each.value["password"], null)
 }
+
