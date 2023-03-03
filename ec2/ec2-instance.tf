@@ -16,24 +16,24 @@ resource "aws_instance" "ec2" {
   }
 }
 
-resource "null_resource" "provisioner" {
-  provisioner "remote-exec" {
-
-    connection {
-      host     = aws_instance.ec2.public_ip
-      user     = "centos"
-      password = "DevOps321"
-    }
-
-    inline = [
-#      "git clone https://github.com/sivakumarit42/roboshop-shell",    #cofiguration by using shell
-#      "cd roboshop-shell",
-#      "sudo bash ${var.component}.sh ${var.password}"
-      "ansible-pull -i localhost, -U https://github.com/sivakumarit42/roboshop-ansible.git roboshop.yml -e role_name=${var.component}"
-    ]
-
-  }
-}
+#resource "null_resource" "provisioner" {
+#  provisioner "remote-exec" {
+#
+#    connection {
+#      host     = aws_instance.ec2.public_ip
+#      user     = "centos"
+#      password = "DevOps321"
+#    }
+#
+#    inline = [
+##      "git clone https://github.com/sivakumarit42/roboshop-shell",    #cofiguration by using shell
+##      "cd roboshop-shell",
+##      "sudo bash ${var.component}.sh ${var.password}"
+#      "ansible-pull -i localhost, -U https://github.com/sivakumarit42/roboshop-ansible.git roboshop.yml -e role_name=${var.component}"
+#    ]
+#
+#  }
+#}
 
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
