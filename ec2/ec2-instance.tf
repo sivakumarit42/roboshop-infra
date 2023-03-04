@@ -26,7 +26,10 @@ resource "null_resource" "provisioner" {
     }
 
     inline = [
-      "ansible-pull -i localhost, -U https://github.com/sivakumarit42/roboshop-ansible.git roboshop.yml -e role_name=${var.component}"
+      "git clone https://github.com/sivakumarit42/roboshop-shell",    #cofiguration by using shell
+      "cd roboshop-shell",
+      "sudo bash ${var.component}.sh ${var.password}"
+   #   "ansible-pull -i localhost, -U https://github.com/sivakumarit42/roboshop-ansible.git roboshop.yml -e role_name=${var.component}"
     ]
 
   }
@@ -69,6 +72,6 @@ variable "instance_type" {}
 variable "env" {
   default = "dev"
 }
-#variable "password" {}
+variable "password" {}
 
 
