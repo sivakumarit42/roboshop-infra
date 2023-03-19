@@ -1,5 +1,5 @@
 module "vpc" {
-  source              = "https://github.com/sivakumarit42/tf-module-vpc.git"
+  source              = "git::https://github.com/sivakumarit42/tf-module-vpc.git"
   env                 = var.env
   tags                = var.tags
   default_route_table = var.default_route_table
