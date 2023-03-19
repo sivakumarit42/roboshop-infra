@@ -1,8 +1,17 @@
-module "ec2" {
-  for_each      = var.instances
-  source        = "./ec2"
-  component     = each.value["name"]
-  instance_type = each.value["type"]
-  env = var.env
-  monitor       = try(each.value["monitor"], false)
+module "vpc" {
+  source              = "https://github.com/sivakumarit42/tf-module-vpc.git"
+  env                 = var.env
+  tags                = var.tags
+  default_route_table = var.default_route_table
+  default_vpc_id      = var.default_vpc_id
+
+  for_each        = var.vpc
+  vpc_cidr        = each.value["vpc_cidr"]
+  public_subnets  = each.value["public_subnets"]
+  private_subnets = each.value["private_subnets"]
 }
+
+
+//output "vpc" {
+//  value = module.vpc
+//}
