@@ -1,4 +1,6 @@
 env = "dev"
+bastion_cidr = ["172.31.12.213/32"]
+dns_domain   = "devopsb72.online"
 
 vpc = {
   main = {
@@ -93,10 +95,11 @@ rabbitmq = {
 
 alb = {
   public = {
-    subnet_name        = "web"
+    subnet_name        = "public"
     name               = "public"
     internal           = false
     load_balancer_type = "application"
+    allow_cidr         = ["0.0.0.0/0"]
   }
 
   private = {
@@ -104,56 +107,81 @@ alb = {
     name               = "private"
     internal           = true
     load_balancer_type = "application"
+    allow_cidr         = ["10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24", "10.0.5.0/24"]
   }
 }
 
 apps = {
   catalogue = {
-    component        = "catalogue"
-    instance_type    = "t3.nano"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "app"
+    component         = "catalogue"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "app"
+    port              = 8080
+    allow_app_to      = "app"
+    alb               = "private"
+    listener_priority = 10
   }
   cart = {
-    component        = "cart"
-    instance_type    = "t3.nano"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "app"
+    component         = "cart"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "app"
+    port              = 8080
+    allow_app_to      = "app"
+    alb               = "private"
+    listener_priority = 11
   }
   user = {
-    component        = "user"
-    instance_type    = "t3.nano"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "app"
+    component         = "user"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "app"
+    port              = 8080
+    allow_app_to      = "app"
+    alb               = "private"
+    listener_priority = 12
   }
   shipping = {
-    component        = "shipping"
-    instance_type    = "t3.micro"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "app"
+    component         = "shipping"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "app"
+    port              = 8080
+    allow_app_to      = "app"
+    alb               = "private"
+    listener_priority = 13
   }
   payment = {
-    component        = "payment"
-    instance_type    = "t3.micro"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "app"
+    component         = "payment"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "app"
+    port              = 8080
+    allow_app_to      = "app"
+    alb               = "private"
+    listener_priority = 14
   }
   frontend = {
-    component        = "frontend"
-    instance_type    = "t3.nano"
-    desired_capacity = 1
-    max_size         = 4
-    min_size         = 1
-    subnet_name      = "web"
+    component         = "frontend"
+    instance_type     = "t3.micro"
+    desired_capacity  = 1
+    max_size          = 4
+    min_size          = 1
+    subnet_name       = "web"
+    port              = 80
+    allow_app_to      = "public"
+    alb               = "public"
+    listener_priority = 10
   }
 }
