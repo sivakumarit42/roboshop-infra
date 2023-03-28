@@ -36,6 +36,7 @@ module "rds" {
   tags   = var.tags
 
   subnet_ids = local.db_subnet_ids
+  vpc_id     = module.vpc["main"].vpc_id
 
   for_each                = var.rds
   engine                  = each.value["engine"]
@@ -44,6 +45,7 @@ module "rds" {
   engine_version          = each.value["engine_version"]
   instance_class          = each.value["instance_class"]
   no_of_instances         = each.value["no_of_instances"]
+  allow_subnets           = lookup(local.subnet_cidr, each.value["allow_subnets"], null)
 }
 
 module "elasticache" {
@@ -52,24 +54,30 @@ module "elasticache" {
   tags   = var.tags
 
   subnet_ids = local.db_subnet_ids
+  vpc_id     = module.vpc["main"].vpc_id
 
   for_each        = var.elasticache
   engine          = each.value["engine"]
   engine_version  = each.value["engine_version"]
   num_cache_nodes = each.value["num_cache_nodes"]
   node_type       = each.value["node_type"]
+  allow_subnets   = lookup(local.subnet_cidr, each.value["allow_subnets"], null)
 
 }
 
 module "rabbitmq" {
-  source = "git::https://github.com/sivakumarit42/tf-module-rabbitmq.git"
-  env    = var.env
-  tags   = var.tags
+  source       = "git::https://github.com/sivakumarit42/tf-module-rabbitmq.git"
+  env          = var.env
+  tags         = var.tags
+  bastion_cidr = var.bastion_cidr
+  dns_domain   = var.dns_domain
 
   subnet_ids = local.db_subnet_ids
+  vpc_id     = module.vpc["main"].vpc_id
 
   for_each      = var.rabbitmq
   instance_type = each.value["instance_type"]
+  allow_subnets = lookup(local.subnet_cidr, each.value["allow_subnets"], null)
 
 }
 
@@ -89,6 +97,9 @@ module "alb" {
 }
 
 module "app" {
+
+  depends_on = [module.docdb, module.rds, module.elasticache, module.alb, module.rabbitmq]
+
   source       = "git::https://github.com/sivakumarit42/tf-module-app.git"
   env          = var.env
   tags         = var.tags
@@ -105,9 +116,10 @@ module "app" {
   min_size          = each.value["min_size"]
   port              = each.value["port"]
   listener_priority = each.value["listener_priority"]
+  parameters        = each.value["parameters"]
   subnets           = lookup(local.subnet_ids, each.value["subnet_name"], null)
   allow_app_to      = lookup(local.subnet_cidr, each.value["allow_app_to"], null)
-  alb_dbs_name      = lookup(lookup(lookup(module.alb, each.value["alb"], null), "alb", null), "dns_name", null)
+  alb_dns_name      = lookup(lookup(lookup(module.alb, each.value["alb"], null), "alb", null), "dns_name", null)
   listener_arn      = lookup(lookup(lookup(module.alb, each.value["alb"], null), "listener", null), "arn", null)
 }
 
