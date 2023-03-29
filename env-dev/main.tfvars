@@ -1,6 +1,6 @@
 env = "dev"
-bastion_cidr = ["172.31.12.213/32"]
-monitoring_nodes = ["172.31.6.100/32"]
+bastion_cidr = ["172.31.12.213/32"]                    //workstation
+monitoring_nodes = ["172.31.6.100/32"]                 //prometheus
 dns_domain   = "devopsb72.online"
 
 vpc = {
@@ -180,7 +180,8 @@ apps = {
     allow_app_to      = "app"
     alb               = "private"
     listener_priority = 14
-    parameters        = []
+#    parameters        = []
+    parameters        = ["rabbitmq"]
   }
   frontend = {
     component         = "frontend"
