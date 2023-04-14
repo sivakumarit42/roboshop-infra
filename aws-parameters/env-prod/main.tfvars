@@ -18,7 +18,13 @@ parameters = [
   { name = "prod.catalogue.mongo_url", value = "mongodb://mongodb-prod.devopsb72.online:27017/users", type = "String" },
   { name = "prod.cart.redis_host", value = "redis-prod.devopsb72.online", type = "String" },
   { name = "prod.cart.catalogue_host", value = "catalogue-prod.devopsb72.online", type = "String" },
-  { name = "prod.cart.catalogue_port", value = "80", type = "String" }
+  { name = "prod.cart.catalogue_port", value = "80", type = "String" },
+  { name = "prod.frontend.app_version", value = "1.0.0", type = "String" },
+  { name = "prod.catalogue.app_version", value = "1.0.0", type = "String" },
+  { name = "prod.user.app_version", value = "1.0.1", type = "String" },
+  { name = "prod.cart.app_version", value = "1.0.0", type = "String" },
+  { name = "prod.shipping.app_version", value = "1.0.1", type = "String" },
+  { name = "prod.payment.app_version", value = "1.0.0", type = "String" }
 ]
 
 ### THIS IS NOT GOING TO BE THE PRACTICE IN COMPANIES, WE SHOULD NOT KEEP PASSWORDS IN GIT REPOS
@@ -33,5 +39,7 @@ secrets = [
   { name = "prod.docdb.pass", value = "RoboShop1", type = "SecureString" },
   { name = "prod.rds.user", value = "admin1", type = "SecureString" },
   { name = "prod.rds.pass", value = "RoboShop1", type = "SecureString" },
-  { name = "prod.ssh.pass", value = "DevOps321", type = "SecureString" }
+  { name = "prod.ssh.pass", value = "DevOps321", type = "SecureString" },
+  { name = "prod.nexus.user", value = "admin", type = "SecureString" },
+  { name = "prod.nexus.pass", value = "admin123", type = "SecureString" }
 ]
